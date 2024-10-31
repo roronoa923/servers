@@ -6,6 +6,12 @@ const app = express()
 const PORT = 8000
 //Middleware
 app.use(express.urlencoded({extended: false}))
+// Getting request data in txt file using a middleware
+app.use((req, res, next)=>{
+    fs.appendFile("Log.txt", `\n${Date.now()}: ${req.ip}: ${req.method}: ${req.path}`, (err, data)=>{
+        next()
+    })
+})
 //Routes
 app.get("/users", (req, res) => {
     const html = `
